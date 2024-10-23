@@ -1,0 +1,10 @@
+Sr.no,TestCase,Result
+01,doLoginWithInvalidCredential,Pass
+02,loginTestWithValidCredential,Pass
+03,addEmployee,Pass
+04,searchEmployeeNyName,Pass
+05,searchEmployeeById,Fail
+06,fileUpload,Pass
+08,applyLeave,Pass
+09,deleteEmployee,Pass
+9,deleteEmployee,Pass

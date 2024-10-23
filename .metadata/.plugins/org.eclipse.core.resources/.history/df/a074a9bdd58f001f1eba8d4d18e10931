@@ -1,0 +1,49 @@
+package utils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+public class ExcelUtils {
+
+    private static String excelPath = "TestResults.xlsx";
+    private static XSSFWorkbook workbook;
+    private static Sheet sheet;
+
+    public static void initializeExcelFile(String sheetName) throws Exception {
+        File file = new File(excelPath);
+        if (!file.exists()) {
+            workbook = new XSSFWorkbook();
+            sheet = workbook.createSheet(sheetName);
+            Row row = sheet.createRow(0);
+            row.createCell(0).setCellValue("Test Case");
+            row.createCell(1).setCellValue("Result");
+        } else {
+            FileInputStream inputStream = new FileInputStream(file);
+            workbook = new XSSFWorkbook(inputStream);
+            sheet = workbook.getSheet(sheetName);
+            if (sheet == null) {
+                sheet = workbook.createSheet(sheetName);
+                Row row = sheet.createRow(0);
+                row.createCell(0).setCellValue("Test Case");
+                row.createCell(1).setCellValue("Result");
+            }
+        }
+    }
+
+    public static void logTestResult(String testCaseName, String result) throws Exception {
+        int rowCount = sheet.getPhysicalNumberOfRows();
+        Row row = sheet.createRow(rowCount);
+        row.createCell(0).setCellValue(testCaseName);
+        row.createCell(1).setCellValue(result);
+    }
+
+    public static void saveAndClose() throws Exception {
+        FileOutputStream outputStream = new FileOutputStream(excelPath);
+        workbook.write(outputStream);
+        workbook.close();
+        outputStream.close();
+    }
+}
